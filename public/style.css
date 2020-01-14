@@ -1,0 +1,20 @@
+
+.title-container {
+  background-color: rgb(131, 33, 33);
+}
+
+.title {
+  color: white;
+  font-size: 2rem;
+}
+
+button.event-search {
+  border-style: none;
+  width: inherit;
+  padding: 1em;
+  background-color: rgb(131, 33, 33);
+}
+
+button.event-search:focus, button.event-search:active {
+background-color: rgb(131, 33, 33);
+}
