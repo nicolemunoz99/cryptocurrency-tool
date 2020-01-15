@@ -52,7 +52,6 @@ const App = (props) => {
       queryString += `&tsyms=${currencies.join(',')}`;
       let response = await fetch(`https://min-api.cryptocompare.com/data/${queryString}${cryptoSecret}`)
       let data = await response.json();
-      console.log('data in getMultiData', data)
 
       let symbolLabels = Object.keys(data);
       let currencyLabels;

@@ -49,8 +49,6 @@ const  BpiGraph = (props) => {
                 xAxes: [{
                   ticks: {
                     maxTicksLimit: 12
-                    //  min: 0,
-                    //  stepSize: 3
                    }
                  }]
                 }

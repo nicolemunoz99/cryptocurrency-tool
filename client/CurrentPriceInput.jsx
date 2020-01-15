@@ -6,13 +6,8 @@ const CurrentPriceInput = (props) => {
   const [symbolOptions, updateSymOptions] = useState(['ETH', 'XRP', 'BSV']);
   const [selectedSymbols, updateSelectedSymbols] = useState([]);
 
-  const [currencyOptions, updateCurrOptions] = useState(['USD', 'JPY', 'EUR']);
+  const [currencyOptions, updateCurrOptions] = useState(['EUR', 'JPY']);
   const [selectedCurrencies, updateSelectedCurrencies] = useState([]);
-
-  // useEffect(() => {
-  //   props.getMultiData(selectedSymbols, selectedCurrencies)
-  // })
-
 
   const submit = (e) => {
     props.getMultiData(selectedSymbols, selectedCurrencies)

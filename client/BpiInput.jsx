@@ -4,7 +4,7 @@ const Input = (props) => {
   const [startDate, updateStart] = useState('');
   const [endDate, updateEnd] = useState('');
 
-  const handleInput = (e) => { // TO DO: box highlight if input value invalid
+  const handleInput = (e) => { // TO DO: box highlight if input invalid
     if (e.target.id === 'start') { updateStart(e.target.value) }
     if (e.target.id === 'end') { updateEnd(e.target.value) }
   }
@@ -15,7 +15,7 @@ const Input = (props) => {
 
   return (
     <div className="col-10">
-      <div className="h4">Specify time period to see BPI history</div>
+      <div className="h4">Historical BitCoin price index (BPI)</div>
       <form>
         <div className="form-group mt-5 row justify-content-center no-gutters">
           <label className="col-form-label">Start date: </label>
