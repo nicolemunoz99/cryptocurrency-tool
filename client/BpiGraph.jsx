@@ -8,13 +8,14 @@ const  BpiGraph = (props) => {
   useEffect(() => {
     updateData(props.bpiData);
     updateLabels(props.bpiData.time);
-
+    console.log(data)
   }, [props.bpiData]);
 
 
 
   let datasets = [{
     label: 'BPI',
+    // backgroundColor: 'rgba(75,192,192,1)',
     borderColor: 'rgba(0,0,0,1)',
     borderWidth: 2,
     pointRadius: 0,
@@ -26,7 +27,6 @@ const  BpiGraph = (props) => {
     datasets: datasets
 
   }
-  // console.log('props.bpiData', props.bpiData.y[0])
   
   return (
       <div>

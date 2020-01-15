@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import cryptoSecret from '../cryptoSecret.js'
 import BpiGraph from './BpiGraph.jsx';
-import Input from './Input.jsx';
+import BpiInput from './BpiInput.jsx';
+import CurrentPriceInput from './CurrentPriceInput.jsx';
+import CurrentPriceChart from './CurrentPriceChart.jsx';
 
 const App = (props) => {
   const [firstLoad, updateFirstLoad] = useState(true);
-  const [bpiData, updateBpiData] = useState(bpiData);
-  const [searchParams, updateSearch] = useState({startDate: '2019-09-01', endDate: '2019-09-20'})
+  
+  // BPI time series
+  const [bpiData, updateBpiData] = useState(null);
+  const [searchParams, updateSearch] = useState({startDate: null, endDate: null})
+  
+  // multi-index/multi-currency bar chart
+  const [multiData, updateMultiData] = useState(null);
 
   useEffect(() => {
     if (!firstLoad) {
@@ -13,6 +21,8 @@ const App = (props) => {
     }
   }, [searchParams, firstLoad])
 
+
+// BPI time series
   const getData = async (start, end) => {
     let response = await fetch(`https://api.coindesk.com/v1/bpi/historical/close.json?start=${start}&end=${end}`);
     let data = await response.json();
@@ -29,6 +39,64 @@ const App = (props) => {
     updateSearch(params);
   }
 
+// multi-index/multi-currency
+  const getMultiData = async (symbols, currencies)  => {
+    updateFirstLoad(false);
+    if (symbols.length > 0 && currencies.length > 0) {
+      let queryString ='';
+      if (symbols.length > 1) { 
+        queryString += `pricemulti?fsyms=${symbols.join(',')}`; 
+      } else {
+        queryString += `price?fsym=${symbols[0]}`;
+      }
+      queryString += `&tsyms=${currencies.join(',')}`;
+      let response = await fetch(`https://min-api.cryptocompare.com/data/${queryString}${cryptoSecret}`)
+      let data = await response.json();
+      console.log('data in getMultiData', data)
+
+      let symbolLabels = Object.keys(data);
+      let currencyLabels;
+      let formattedData = {};
+      console.log('2', data[symbolLabels[0]])
+      if (symbols.length === 1) {
+        currencyLabels = symbolLabels;
+        symbolLabels = [symbols[0]];
+        formattedData = data;
+        for (let currency in formattedData) {
+          console.log('hi1', formattedData)
+          formattedData[currency] = [formattedData[currency]]
+          console.log('hi2', formattedData)
+        }
+        console.log('hi', formattedData)
+      } else {
+        currencyLabels = Object.keys(data[symbolLabels[0]]);
+        currencyLabels.forEach(label => formattedData[label] = []);
+        console.log('hi', formattedData)
+        for (let symbol of symbolLabels) {
+          for (let currency of currencyLabels) {
+            formattedData[currency].push(data[symbol][currency]);
+          }
+        }
+      
+      }
+      let chartData = { formattedData, symbolLabels };
+      console.log('cartData', chartData)
+      updateMultiData(chartData);
+    }
+  }
+
+  let tempData = {
+    "USDC": {
+        "JPY": 109.4,
+        "EUR": 0.9
+    },
+    "USDT": {
+        "JPY": 109.32,
+        "EUR": 0.8952
+    }
+  };
+
+
   return (
     <div className="mt-4 mb-4">
       <div className="container-fluid">
@@ -40,13 +108,25 @@ const App = (props) => {
         </div>
 
         <div className="row justify-content-md-center mt-4">
-          <Input handleSubmit={handleSubmit}/>
+          <BpiInput handleSubmit={handleSubmit}/>
         </div>
 
         <div className="row justify-content-md-center mt-4">
           <div className="col-10">
             {bpiData ?
               <BpiGraph bpiData={bpiData} /> : null
+            }
+          </div>
+        </div>
+
+        <div className="row justify-content-md-center mt-4">
+          <CurrentPriceInput getMultiData={getMultiData}/>
+        </div>
+
+        <div className="row justify-content-md-center mt-4">
+          <div className="col-10">
+            {tempData ?
+              <CurrentPriceChart multiData={multiData} /> : null
             }
           </div>
         </div>
