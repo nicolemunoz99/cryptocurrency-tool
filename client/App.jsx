@@ -7,11 +7,11 @@ import CurrentPriceChart from './CurrentPriceChart.jsx';
 
 const App = (props) => {
   const [firstLoad, updateFirstLoad] = useState(true);
-  
+
   // BPI time series
   const [bpiData, updateBpiData] = useState(null);
-  const [searchParams, updateSearch] = useState({startDate: null, endDate: null})
-  
+  const [searchParams, updateSearch] = useState({ startDate: null, endDate: null })
+
   // multi-index/multi-currency bar chart
   const [multiData, updateMultiData] = useState(null);
 
@@ -22,7 +22,7 @@ const App = (props) => {
   }, [searchParams, firstLoad])
 
 
-// BPI time series
+  // BPI time series
   const getData = async (start, end) => {
     let response = await fetch(`https://api.coindesk.com/v1/bpi/historical/close.json?start=${start}&end=${end}`);
     let data = await response.json();
@@ -39,13 +39,13 @@ const App = (props) => {
     updateSearch(params);
   }
 
-// multi-index/multi-currency
-  const getMultiData = async (symbols, currencies)  => {
+  // multi-index/multi-currency
+  const getMultiData = async (symbols, currencies) => {
     updateFirstLoad(false);
     if (symbols.length > 0 && currencies.length > 0) {
-      let queryString ='';
-      if (symbols.length > 1) { 
-        queryString += `pricemulti?fsyms=${symbols.join(',')}`; 
+      let queryString = '';
+      if (symbols.length > 1) {
+        queryString += `pricemulti?fsyms=${symbols.join(',')}`;
       } else {
         queryString += `price?fsym=${symbols[0]}`;
       }
@@ -57,45 +57,26 @@ const App = (props) => {
       let symbolLabels = Object.keys(data);
       let currencyLabels;
       let formattedData = {};
-      console.log('2', data[symbolLabels[0]])
       if (symbols.length === 1) {
         currencyLabels = symbolLabels;
         symbolLabels = [symbols[0]];
         formattedData = data;
         for (let currency in formattedData) {
-          console.log('hi1', formattedData)
           formattedData[currency] = [formattedData[currency]]
-          console.log('hi2', formattedData)
         }
-        console.log('hi', formattedData)
       } else {
         currencyLabels = Object.keys(data[symbolLabels[0]]);
         currencyLabels.forEach(label => formattedData[label] = []);
-        console.log('hi', formattedData)
         for (let symbol of symbolLabels) {
           for (let currency of currencyLabels) {
             formattedData[currency].push(data[symbol][currency]);
           }
         }
-      
       }
       let chartData = { formattedData, symbolLabels };
-      console.log('cartData', chartData)
       updateMultiData(chartData);
     }
   }
-
-  let tempData = {
-    "USDC": {
-        "JPY": 109.4,
-        "EUR": 0.9
-    },
-    "USDT": {
-        "JPY": 109.32,
-        "EUR": 0.8952
-    }
-  };
-
 
   return (
     <div className="mt-4 mb-4">
@@ -103,31 +84,33 @@ const App = (props) => {
 
         <div className="row mb-4">
           <div className="col-12 title-container">
-            <div className="title">BitCoin Price Index</div>
+            <div className="title">Cryptocurrency Tool</div>
           </div>
         </div>
+        <div className="outline">
+          <div className="row justify-content-md-center mt-4">
+            <BpiInput handleSubmit={handleSubmit} />
+          </div>
 
-        <div className="row justify-content-md-center mt-4">
-          <BpiInput handleSubmit={handleSubmit}/>
-        </div>
-
-        <div className="row justify-content-md-center mt-4">
-          <div className="col-10">
-            {bpiData ?
-              <BpiGraph bpiData={bpiData} /> : null
-            }
+          <div className="row justify-content-md-center mt-4">
+            <div className="col-10">
+              {bpiData ?
+                <BpiGraph bpiData={bpiData} /> : null
+              }
+            </div>
           </div>
         </div>
+        <div className="outline">
+          <div className="row justify-content-md-center mt-4">
+            <CurrentPriceInput getMultiData={getMultiData} />
+          </div>
 
-        <div className="row justify-content-md-center mt-4">
-          <CurrentPriceInput getMultiData={getMultiData}/>
-        </div>
-
-        <div className="row justify-content-md-center mt-4">
-          <div className="col-10">
-            {tempData ?
-              <CurrentPriceChart multiData={multiData} /> : null
-            }
+          <div className="row justify-content-md-center mt-4">
+            <div className="col-10">
+              {multiData ?
+                <CurrentPriceChart multiData={multiData} /> : null
+              }
+            </div>
           </div>
         </div>
 
@@ -135,8 +118,6 @@ const App = (props) => {
     </div>
   )
 }
-
-
 
 export default App;
 
