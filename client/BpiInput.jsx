@@ -4,13 +4,29 @@ const Input = (props) => {
   const [startDate, updateStart] = useState('');
   const [endDate, updateEnd] = useState('');
 
-  const handleInput = (e) => { // TO DO: box highlight if input invalid
+  let validFormat = /\d\d\d\d-\d\d-\d\d/
+
+  const handleInput = (e) => { 
     if (e.target.id === 'start') { updateStart(e.target.value) }
     if (e.target.id === 'end') { updateEnd(e.target.value) }
+
+    if (!e.target.value.match(validFormat)) {
+      if (!e.target.classList.contains('is-invalid')) {
+        e.target.classList.add('is-invalid')
+      }
+    }
+    if (e.target.value.match(validFormat)) {
+      if (e.target.classList.contains('is-invalid')) {
+        e.target.classList.remove('is-invalid')
+      }
+    }
+
   }
 
   const submit = (e) => {
-    props.handleSubmit({startDate, endDate});
+    if (endDate.match(validFormat) && startDate.match(validFormat)) {
+      props.handleSubmit({startDate, endDate});
+    }    
   }
 
   return (
