@@ -35,8 +35,18 @@ const CurrentPriceChart = (props) => {
           labelString: currencyLabels[0]
         },
         id: 'A',
-        type: 'linear',
+        type: 'logarithmic',
         position: 'left',
+        gridLines: {
+          display: true
+        },
+        ticks: {
+          min: 0,
+          callback: function (tick) {
+            return tick
+          },
+          maxTicksLimit: 4
+        },
       }, {
         scaleLabel: {
           display: true,
@@ -44,12 +54,18 @@ const CurrentPriceChart = (props) => {
         },
         id: 'B',
         display: currencyLabels.length > 1 ? true : false,
-        type: 'linear',
+        type: 'logarithmic',
         position: 'right',
-        ticks: {
-          max: 1,
-          min: 0
-        }
+        gridLines: {
+          display: false
+      },
+      ticks: {
+        min: 0,
+        callback: function (tick) {
+          return tick
+        },
+        maxTicksLimit: 4
+      },
       }]
     }
     console.log('finalData', finalData)
@@ -58,32 +74,6 @@ const CurrentPriceChart = (props) => {
   }
 }, [props.multiData])
   
-
-    const options= {
-      scales: {
-        gridLines: {
-          color: 'transparent'
-        },
-        yAxes: [
-        {
-          id: 'A',
-          type: 'linea',
-          position: 'left',
-          gridLines: {
-            drawOnChartArea: false
-        }
-        }, 
-        {
-          id: 'B',
-          type: 'logarithmic',
-          position: 'right',
-          gridLines: {
-            drawOnChartArea: false
-        }
-        }
-      ]
-      }
-    };
 
 
   return (
