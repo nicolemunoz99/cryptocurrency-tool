@@ -1,7 +1,7 @@
-import React, {Component, useState, useEffect } from 'react';
-import {Line} from 'react-chartjs-2';
+import React, { Component, useState, useEffect } from 'react';
+import { Line } from 'react-chartjs-2';
 
-const  BpiGraph = (props) => {
+const BpiGraph = (props) => {
   const [labels, updateLabels] = useState(props.bpiData.time)
   const [data, updateData] = useState([])
 
@@ -20,46 +20,53 @@ const  BpiGraph = (props) => {
     borderWidth: 2,
     pointRadius: 0,
     data: data.y
-    }]
+  }]
 
   let graphData = {
     labels: labels,
     datasets: datasets
 
   }
-  
+
   return (
-      <div>
-        {data ? 
-          <Line 
-            data={graphData}
-            options={{
-              title:{
-                display:true,
-                text:'BPI (USD)',
-                fontSize:20,
-                
-              }
-              ,
-              legend:{
-                display:false,
-                position:'right'
-              },
-              scales: {
-                xAxes: [{
-                  ticks: {
-                    maxTicksLimit: 12
-                   }
-                 }]
+    <div>
+      {data ?
+        <Line
+          data={graphData}
+          options={{
+            title: {
+              display: true,
+              text: 'BPI (USD)',
+              fontSize: 20,
+
+            }
+            ,
+            legend: {
+              display: false,
+              position: 'right'
+            },
+            scales: {
+              xAxes: [{
+                ticks: {
+                  maxTicksLimit: 12
                 }
-              
-            }}
-          /> 
-          : null
-        }
+              }]
+            }
+
+          }}
+        />
+        : null
+      }
+      <div className="mt-3">
+        <p>
+          <small>
+          Data provided by<a href="https://www.coindesk.com/price/bitcoin" className="credit-link"> CoinDesk</a>
+          </small>
+        </p>
       </div>
+    </div>
   )
-  
+
 }
 
 export default BpiGraph

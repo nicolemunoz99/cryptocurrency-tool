@@ -27,3 +27,8 @@ background-color: rgb(131, 33, 33);
   margin-bottom: 2rem;
   padding: 1rem;
 }
+
+a.credit-link {
+  color: black !important;
+  text-decoration: underline;
+}

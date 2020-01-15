@@ -94,6 +94,13 @@ const CurrentPriceChart = (props) => {
         />
         : null
       }
+            <div className="mt-3">
+        <p>
+          <small>
+          Data provided by<a href="https://www.cryptocompare.com" className="credit-link"> CryptoCompare</a>
+          </small>
+        </p>
+      </div>
     </div>
   )
 }
