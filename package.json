@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "react-dev": "webpack -d --watch",
-    "server-start": "node server.js",
+    "start": "node server.js",
     "client-start": "live-server ./public"
   },
   "keywords": [],
