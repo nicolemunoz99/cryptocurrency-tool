@@ -6,6 +6,7 @@ Demo: http://3.16.40.57:8765/
 ### Built with:
 * React
 * Chart.js
+* Bootstrap 4 (for media queries)
 * Node.js Express
 * Third-party APIs [CryptoCompare](https://www.cryptocompare.com/) and [CoinDesk](https://www.coindesk.com/price/bitcoin)
 
