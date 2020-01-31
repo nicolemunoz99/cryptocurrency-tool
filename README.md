@@ -1,9 +1,10 @@
 # cryptocurrency-tool
 Single-page app for viewing historical and current cryptocurrency prices. 
 
-Demo: http://3.16.40.57:8765/
+### Demo
+http://3.16.40.57:8765/
 
-### Built with:
+### Built with
 * React
 * Chart.js
 * Bootstrap 4 (for media queries)
