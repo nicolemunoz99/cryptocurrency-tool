@@ -2,7 +2,7 @@
 Single-page app for viewing historical and current cryptocurrency prices. 
 
 ### Demo
-http://3.12.104.145:8765:8765/
+http://3.12.104.145:8765/
 
 ### Built with
 * React
